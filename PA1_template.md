@@ -6,7 +6,7 @@ output:
         html_document:  
                 keep_md: true 
 ---
-#Reproducible Research: Project 1
+# Reproducible Research: Project 1
 This assignment makes use of data from a personal activity monitoring device. This device collects data at 5 minute intervals through out the day. The data consists of two months of data from an anonymous individual collected during the months of October and November, 2012 and include the number of steps taken in 5 minute intervals each day.
 
 The variables included in this dataset are:
@@ -16,7 +16,7 @@ interval: Identifier for the 5-minute interval in which measurement was taken
 The dataset is stored in a comma-separated-value (CSV) file and there are a total of 17,568 observations in this dataset.
 
 
-Loading and preprocessing the data.
+## Loading and preprocessing the data.
 
 ```r
 library(data.table)
@@ -91,14 +91,14 @@ data <- read.csv("./activity.csv", header = TRUE,na.strings = c("NA"),
         colClasses = c("numeric", "Date", "numeric"))
 ```
 
-#What is mean total number of steps taken per day? Ignore missing values.
-##Calculate the total number of steps taken per day.
+## What is mean total number of steps taken per day? Ignore missing values.
+### Calculate the total number of steps taken per day.
 
 ```r
 data2 <- na.omit(data)
 byday <- data2 %>% group_by(date) %>% summarize(sum = sum(steps))
 ```
-##Make a histogram of the total number of steps taken each day
+### Make a histogram of the total number of steps taken each day
 
 ```r
 ggplot(byday, aes(sum)) + geom_histogram() + 
@@ -111,7 +111,7 @@ ggplot(byday, aes(sum)) + geom_histogram() +
 ```
 
 ![](figure/unnamed-chunk-3-1.png)<!-- -->
-##Calculate and report the mean and median of the total number of steps taken per day
+### Calculate and report the mean and median of the total number of steps taken per day
 
 ```r
 mean(byday$sum)
@@ -141,7 +141,7 @@ plot(avgsteps$interval,avgsteps$avgsteps, type="l", col="blue",lwd=2,
 ```
 
 ![](figure/unnamed-chunk-5-1.png)<!-- -->
-##Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
+### Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
 
 ```r
 x <- which(avgsteps$avgsteps==max(avgsteps$avgsteps))
@@ -155,7 +155,7 @@ avgsteps[x,]
 ## 1      835 206.1698
 ```
 
-#Imputing missing values
+## Imputing missing values
 Note that there are a number of days/intervals where there are missing values (coded as 𝙽𝙰). The presence of missing days may introduce bias into some calculations or summaries of the data.
 1. Calculate and report the total number of missing values in the dataset (i.e. the total number of rows with 𝙽𝙰s)
 
@@ -211,7 +211,7 @@ median(byday2$sum)
 Since we used the mean for the imputation strategy, the mean did not change, but the median increased from 10765 to 10766.19.
 
 
-#Are there differences in activity patterns between weekdays and weekends?
+## Are there differences in activity patterns between weekdays and weekends?
 
 For this part the 𝚠𝚎𝚎𝚔𝚍𝚊𝚢𝚜() function may be of some help here. Use the dataset with the filled-in missing values for this part.
 
